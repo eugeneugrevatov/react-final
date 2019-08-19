@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { fetchHouses } from "../../actions";
 
-function HouseList({ houses, fetchHouses }) {
+function HouseList({ match: {params: {page}}, houses, fetchHouses }) {
 
   useEffect(() => {
     fetchHouses()
