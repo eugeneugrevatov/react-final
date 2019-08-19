@@ -22,5 +22,6 @@ module.exports = {
   plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
   devServer: {
     port: 3000,
+    historyApiFallback: true
   }
 };
