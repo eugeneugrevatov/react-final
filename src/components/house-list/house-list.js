@@ -1,30 +1,37 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
-import { fetchHouses } from "../../actions";
+import { fetchHousesPage } from "../../actions";
+import { Link } from "react-router-dom";
 
-function HouseList({ match: {params: {page}}, houses, fetchHouses }) {
+function HouseList({ match: { params: { page } }, houses, fetchHousesPage }) {
 
   useEffect(() => {
-    fetchHouses()
-  }, []);
+    !houses && fetchHousesPage(page)
+  }, [page]);
+
+
 
 
   return (
     <div>
       {
-        houses.isLoading ?
+        !houses || houses.isLoading ?
           <h3>Loading....</h3> :
-          <ul>
-            {houses.entities.map(h => <li key={h}>{h}</li>)}
-          </ul>
-
+          <>
+            <ul>
+              {houses.entities.map(house => <li key={house.id}>{house.name}</li>)}
+            </ul>
+            {+page !== 1 &&  <Link to={`/houses/${+page - 1}`}>Back</Link>}
+            {page}
+            {houses.entities.length === 10 && <Link to={`/houses/${+page + 1}`}>Next</Link>}
+          </>
       }
     </div>
   );
 }
 
-const stateToProps = state => ({
-  houses: state.houses
+const stateToProps = (state, { match: { params: { page } } }) => ({
+  houses: state.houses.get(page)
 });
 
-export default connect(stateToProps, { fetchHouses })(HouseList);
+export default connect(stateToProps, { fetchHousesPage })(HouseList);

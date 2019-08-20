@@ -1,20 +1,24 @@
-import { FETCH_HOUSES, START, SUCCESS } from "../constants";
+import { FETCH_HOUSES_PAGE, START, SUCCESS } from "../constants";
+import { OrderedMap } from "immutable";
 
-const defaultState = {
-  entities: [],
-  page: 1,
-  isLoading: false,
-  isLoaded: false,
-};
-
-export default (housesState = defaultState, action) => {
-  const { type, response } = action;
+export default (housesState = new OrderedMap(), action) => {
+  const { type, payload, response } = action;
   switch (type) {
-    case FETCH_HOUSES + START: {
-      return { ...housesState, isLoading: true }
+    case FETCH_HOUSES_PAGE + START: {
+      return housesState.set(payload,
+        {
+          entities: [],
+          isLoading: true,
+          isLoaded: false,
+        });
     }
-    case FETCH_HOUSES + SUCCESS: {
-      return { entities: response.map(h => h.name), isLoading: false }
+    case FETCH_HOUSES_PAGE + SUCCESS: {
+      return housesState.set(payload,
+        {
+          entities: response.map(house => ({ id: house.url.split('/').pop(), name: house.name })),
+          isLoading: false,
+          isLoaded: true,
+        });
     }
 
     // case FETCH_HOUSE: {

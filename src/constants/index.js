@@ -1,4 +1,4 @@
-export const FETCH_HOUSES = 'FETCH_HOUSES';
+export const FETCH_HOUSES_PAGE = 'FETCH_HOUSES';
 export const FETCH_HOUSE = 'FETCH_HOUSE';
 export const FETCH_PERSON = 'FETCH_HOUSE_INFO';
 

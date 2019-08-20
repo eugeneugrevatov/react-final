@@ -22,6 +22,13 @@ module.exports = {
   plugins: [new HtmlWebpackPlugin({ template: "./index.html" })],
   devServer: {
     port: 3000,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'https://www.anapioficeandfire.com',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 };
