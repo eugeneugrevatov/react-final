@@ -1,4 +1,4 @@
-import { FETCH_HOUSE, FETCH_HOUSES_PAGE, FETCH_PERSON } from "../constants";
+import { FETCH_HOUSES_PAGE, FETCH_PERSON } from "../constants";
 
 
 export const fetchHousesPage = page => ({
@@ -7,12 +7,8 @@ export const fetchHousesPage = page => ({
   callAPI: `/api/houses?page=${page}&pageSize=10`
 });
 
-export const fetchHouse = id => ({
-  type: FETCH_HOUSE,
-  callAPI: `/api/houses/${id}`
-});
-
 export const fetchPerson = id => ({
   type: FETCH_PERSON,
+  payload: id,
   callAPI: `/api/characters/${id}`
 });

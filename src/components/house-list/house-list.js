@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { fetchHousesPage } from "../../actions";
 import { Link } from "react-router-dom";
+import House from "../house/house";
 
 function HouseList({ match: { params: { page } }, houses, fetchHousesPage }) {
 
@@ -9,29 +10,25 @@ function HouseList({ match: { params: { page } }, houses, fetchHousesPage }) {
     !houses && fetchHousesPage(page)
   }, [page]);
 
-
-
-
   return (
     <div>
+      <Link to={`/houses/${Math.max(1, +page - 1)}`}>&lt;</Link>
+      <div style={{ display: 'inline-block', margin: 15 }}>{page}</div>
+      <Link to={`/houses/${+page + 1}`}>&gt;</Link>
+
       {
         !houses || houses.isLoading ?
           <h3>Loading....</h3> :
-          <>
-            <ul>
-              {houses.entities.map(house => <li key={house.id}>{house.name}</li>)}
-            </ul>
-            {+page !== 1 &&  <Link to={`/houses/${+page - 1}`}>Back</Link>}
-            {page}
-            {houses.entities.length === 10 && <Link to={`/houses/${+page + 1}`}>Next</Link>}
-          </>
+          <div>
+            {houses.entities.map(house => <House key={house.id} house={house}/>)}
+          </div>
       }
     </div>
   );
 }
 
-const stateToProps = (state, { match: { params: { page } } }) => ({
+const mapStateToProps = (state, { match: { params: { page } } }) => ({
   houses: state.houses.get(page)
 });
 
-export default connect(stateToProps, { fetchHousesPage })(HouseList);
+export default connect(mapStateToProps, { fetchHousesPage })(HouseList);
