@@ -1,9 +1,14 @@
 import { OrderedMap, Record } from "immutable";
 import { FETCH_PERSON, START, SUCCESS } from "../constants";
+import React from "react";
 
 const PersonRecord = Record({
   id: "",
   name: "",
+  gender: "",
+  culture: "",
+  born: "",
+  died: "",
   isLoaded: false,
   isLoading: false
 });
